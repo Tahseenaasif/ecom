@@ -1,0 +1,12 @@
+Place order
+1.get cart item of user,calculate the total  ammount
+2.create the recordd fro order.
+3.Reduce the stock(products quantity)
+4.clear the cart
+
+//1important this is very  necesary to keep in mind that if any of the operation fails we have to revert all these to it's origional state.
+
+//in real full fleged ecomerce applicaton there  are more operations such as
+5.Deduct the payment
+6.Infrorm to seller
+7.inform to  coureier

@@ -1,0 +1,142 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "version":"1.0.0",
+        "description":"API for E-Commerce application",
+        "title":"E-commerce API"
+    },
+    "servers":[
+        {
+            "url":"http://localhost:3200"
+        }
+    ],
+
+    "components":
+    {
+        "securitySchemes":
+        {
+            "JWT":
+            {
+                "in":"header",
+                "name":"Authorization",
+                "type": "apiKey",
+                "description": "Enter your JWT token here (e.g., 'Bearer your-token')"
+            }
+        }
+    },
+
+    "paths":
+    {
+        "/api/products": {
+            "get":
+            {
+                "tags": ["Products"],
+                "summary":"Get Products",
+                "description":"User will get all products",
+                "security":[{"JWT": {} }],
+                "responses":
+                {
+                    "200": {
+                        "description":"OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+
+        "/api/users/signin": 
+        {
+            "post":
+            {
+                "tags": ["Users"],
+                "summary":"Login",
+                "description":"User login to get token",
+                "requestBody":
+                {
+                    "content":
+                    {
+                        "application/json":{
+                            "schema": 
+                            {
+                            
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "type": "string"
+                                    },
+                                    "password":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200": {
+                        "description":"OK"
+                    },
+                    "400": {
+                        "description": "Incorrect Credentials"
+                    }
+                }
+            }
+          },
+          "/api/cartItems": {
+            "get": {
+              "tags": ["cartItems"],
+              "description": "User will get all cartItems",
+              "security": [
+                {
+                  "JWT": []
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                },
+                "400": {
+                  "description": "Not Found"
+                }
+              }
+            },
+            "post": {
+              "tags": ["add to cart"],
+              "summary": "Add to cart",
+              "description": "Logged-in users can add products to the cart",
+              "parameters": [
+                {
+                  "in": "query",
+                  "name": "productID",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "description": "The ID of the product to add to the cart"
+                  }
+                },
+                {
+                  "in": "query",
+                  "name": "quantity",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "description": "The quantity of the product to add to the cart"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK"
+                },
+                "400": {
+                  "description": "Bad Request"
+                }
+              }
+            }
+          }
+ }
+}
+
+

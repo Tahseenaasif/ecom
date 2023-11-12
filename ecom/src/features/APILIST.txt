@@ -1,0 +1,54 @@
+Products Controller
+get Products-Done
+add a Products-Done
+get one Products-Done
+Rate product-Done
+filterproduct-done
+
+
+userController
+singup-Email,Name,password,Type of user(customer,seller)-Done.
+singin-(Email,password)-Done.
+
+
+
+//how to find the average rating of the prduct's
+
+db.products.aggregate([
+   //1.Create document for the ratings 
+
+   {
+     $unwind:"$ratings"
+   },
+
+ //  2.group the ratings per product and get average
+  ,{
+   $group:{
+     _id:"$name",
+     averageRatings:{$avg:"$ratings.rating"}
+   }
+  }
+])
+
+
+//this is the code to find the average rating of the product
+ db.product.aggregate(
+    [
+    {
+     $project: {
+        name: 1,
+        countofRating: {
+         $cond: {
+            if: { $isArray: "$ratings" }, // Use $isArray instead of isArray
+            then: { $size: "$ratings" },
+               else: 0
+                }
+            }
+         }
+     },
+     {
+     //stahe:2sot the collection 
+     $sort:{countofRating:-1}
+     }
+    ]
+ )
